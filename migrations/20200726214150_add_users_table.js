@@ -4,8 +4,7 @@ exports.up = function(knex) {
         table.increments('id').primary(),
         table.string('name').notNull(),
         table.string('username').notNull().unique(),
-        table.string('password').notNull(),
-        table.boolean('admin').notNull().defaultTo(false)
+        table.string('password').notNull()
     })
 }
 
