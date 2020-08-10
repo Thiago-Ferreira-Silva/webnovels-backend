@@ -33,12 +33,12 @@ module.exports = app => {
         }
     }
 
-    const get = (req, res) => {
+  /*  const get = (req, res) => {
         app.db('users')
             .select('id', 'name', 'username', 'admin', 'password') // lembre-se de remover a senha do get
             .then( users => res.json(users))
             .catch( err => res.status(500).send(err))
-    }
+    } */
 
     const getById = (req, res) => {
         app.db('users')
