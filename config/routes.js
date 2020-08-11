@@ -8,4 +8,9 @@ module.exports = app => {
         .all(app.config.passport.authenticate())
         .get(app.api.user.getById)
         .delete(app.api.user.remove)
+
+    app.route('/novels')
+        .all(app.config.passport.authenticate())
+        .post(app.api.novel.save)
+        .get(app.api.novel.get)
 }
