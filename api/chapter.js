@@ -7,6 +7,9 @@ module.exports = app => {
                         .first()
                         .catch( err => res.status(400),send('The novel does not exist'))
 
+
+        //erro con novel que não existe
+
         if (!chapter.novelName) return res.status(400).send('Enter the novel name')
         if(!chapter.number) return res.status(400).send('Enter the number')
         if(!chapter.content) return res.staus(400).send('Enter the content')
