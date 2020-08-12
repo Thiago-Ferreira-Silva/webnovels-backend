@@ -24,7 +24,11 @@ module.exports = app => {
     }
 
     const getByUserId = (req, res) => {
-
+        app.db('novels')
+            .select('id', 'name', 'description', 'user_id')
+            .where({ user_id: req.params.id })
+            .then( novels => res.json(novels))
+            .catch( err => res.status(500).send(err))
     }
 
     const remove = (req, res) => {
