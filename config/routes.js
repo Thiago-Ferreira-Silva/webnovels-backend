@@ -17,4 +17,8 @@ module.exports = app => {
     app.route('/novels/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.novel.getByUserId)
+
+    app.route('/chapters')
+        .all(app.config.passport.authenticate())
+        .post(app.api.chapter.save)
 }

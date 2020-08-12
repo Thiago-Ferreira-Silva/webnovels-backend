@@ -1,6 +1,24 @@
 module.exports = app => {
 
-    const save = (req, res) => {
+    const save = async (req, res) => {
+        const chapter = { ...req.body }
+        const novel = await app.db('novels')
+                        .where({ name: chapter.novelName })
+                        .first()
+                        .catch( err => res.status(400),send('The novel does not exist'))
+
+        if (!chapter.novelName) return res.status(400).send('Enter the novel name')
+        if(!chapter.number) return res.status(400).send('Enter the number')
+        if(!chapter.content) return res.staus(400).send('Enter the content')
+
+        delete chapter.novelName
+        chapter.novel_id = novel.id
+
+        app.db('chapters')
+            .insert(chapter)
+            .then( _ => res.status(204).send())
+            .then(() => console.log('ok'))
+            .catch( err => res.status(500).send(err))
 
     }
 
