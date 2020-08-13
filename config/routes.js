@@ -14,11 +14,19 @@ module.exports = app => {
         .post(app.api.novel.save)
         .get(app.api.novel.get)
 
-    app.route('/novels/:id')
+    app.route('/novels/user/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.novel.getByUserId)
+
+    app.route('/novels/:id')
+        .all(app.config.passport.authenticate())
+        .get(app.api.novel.getById)
 
     app.route('/chapters')
         .all(app.config.passport.authenticate())
         .post(app.api.chapter.save)
+
+    app.route('/chapters/novel/:id')
+        .all(app.config.passport.authenticate())
+        .get(app.api.chapter.getByNovelId)
 }

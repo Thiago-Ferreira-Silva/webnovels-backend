@@ -20,7 +20,11 @@ module.exports = app => {
     }
 
     const getById = (req, res) => {
-
+        app.db('novels')
+            .select('id', 'name', 'description', 'user_id')
+            .where({ id: req.params.id })
+            .then( novel => res.json(novel))
+            .catch( err => res.status(500).send(err))
     }
 
     const getByUserId = (req, res) => {

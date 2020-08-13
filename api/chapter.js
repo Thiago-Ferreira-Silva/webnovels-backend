@@ -30,7 +30,11 @@ module.exports = app => {
     }
 
     const getByNovelId = (req, res) => {
-
+        app.db('chapters')
+            .select('number', 'novel_id', 'content')
+            .where({ novel_id: req.params.id })
+            .then( chapter => res.json(chapter))
+            .catch( err => res.status(500).send(err))
     }
 
     const remove = (req, res) => {
