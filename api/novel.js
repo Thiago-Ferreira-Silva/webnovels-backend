@@ -23,6 +23,7 @@ module.exports = app => {
         app.db('novels')
             .select('id', 'name', 'description', 'user_id')
             .where({ id: req.params.id })
+            .first()
             .then( novel => res.json(novel))
             .catch( err => res.status(500).send(err))
     }

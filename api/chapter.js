@@ -5,7 +5,7 @@ module.exports = app => {
         const novel = await app.db('novels')
                         .where({ name: chapter.novelName })
                         .first()
-                        .catch( err => res.status(400),send('The novel does not exist'))
+                        .catch( err => res.status(400).send('The novel does not exist'))
 
 
         //erro con novel que não existe
@@ -20,7 +20,6 @@ module.exports = app => {
         app.db('chapters')
             .insert(chapter)
             .then( _ => res.status(204).send())
-            .then(() => console.log('ok'))
             .catch( err => res.status(500).send(err))
 
     }
