@@ -30,7 +30,7 @@ module.exports = app => {
 
     const getByNovelId = (req, res) => {
         app.db('chapters')
-            .select('number', 'novel_id', 'content')
+            .select('number', 'novel_id')
             .where({ novel_id: req.params.id })
             .then( chapter => res.json(chapter))
             .catch( err => res.status(500).send(err))
