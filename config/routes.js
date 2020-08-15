@@ -21,6 +21,7 @@ module.exports = app => {
     app.route('/novels/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.novel.getById)
+        .delete(app.api.novel.remove)
 
     app.route('/chapters')
         .all(app.config.passport.authenticate())

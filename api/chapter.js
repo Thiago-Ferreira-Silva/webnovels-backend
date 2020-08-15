@@ -8,7 +8,7 @@ module.exports = app => {
                         .catch( err => res.status(400).send('The novel does not exist'))
 
 
-        //erro con novel que não existe
+        //erro com novel que não existe
 
         if (!chapter.novelName) return res.status(400).send('Enter the novel name')
         if(!chapter.number) return res.status(400).send('Enter the number')
@@ -37,7 +37,7 @@ module.exports = app => {
     }
 
     const remove = (req, res) => {
-
+        
     }
 
     return { save, getChapter, getByNovelId, remove }

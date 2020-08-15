@@ -37,7 +37,11 @@ module.exports = app => {
     }
 
     const remove = (req, res) => {
-
+        app.db('novels')
+            .where({ id: req.params.id })
+            .del()
+            .then( _ => res.status(204).send())
+            .catch( err => res.status(500).send())
     }
 
     return { save, get, getById, getByUserId, remove }
