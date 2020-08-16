@@ -9,6 +9,7 @@ module.exports = app => {
 
 
         //erro com novel que não existe
+        //proíba de gerar dois capítulos com o mesmo número em uma novel
 
         if (!chapter.novelName) return res.status(400).send('Enter the novel name')
         if(!chapter.number) return res.status(400).send('Enter the number')
