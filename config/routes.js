@@ -30,4 +30,8 @@ module.exports = app => {
     app.route('/chapters/novel/:id')
         .all(app.config.passport.authenticate())
         .get(app.api.chapter.getByNovelId)
+
+    app.route('/chapter/:id/:number')
+        .all(app.config.passport.authenticate())
+        .get(app.api.chapter.getChapter)
 }

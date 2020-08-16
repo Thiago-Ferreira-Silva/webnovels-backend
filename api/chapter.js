@@ -27,13 +27,19 @@ module.exports = app => {
 
     const getChapter = (req, res) => {
         // verificar se vale a pena fazer um id para os capítulos
+        app.db('chapters')
+            .select('novel_id', 'number', 'content')
+            .where({ novel_id: req.params.id, number: req.params.number })
+            .first()
+            .then( chapter => res.json(chapter))
+            .catch( err => res.status(500).send())
     }
 
     const getByNovelId = (req, res) => {
         app.db('chapters')
             .select('number', 'novel_id')
             .where({ novel_id: req.params.id })
-            .then( chapter => res.json(chapter))
+            .then( chapters => res.json(chapters))
             .catch( err => res.status(500).send(err))
     }
 
