@@ -26,7 +26,6 @@ module.exports = app => {
     }
 
     const getChapter = (req, res) => {
-        // verificar se vale a pena fazer um id para os capítulos
         app.db('chapters')
             .select('novel_id', 'number', 'content')
             .where({ novel_id: req.params.id, number: req.params.number })
@@ -43,9 +42,13 @@ module.exports = app => {
             .catch( err => res.status(500).send(err))
     }
 
+    const getNew = (req, res) => {
+        //pegar os capítulos mais recentes para o home
+    }
+
     const remove = (req, res) => {
         
     }
 
-    return { save, getChapter, getByNovelId, remove }
+    return { save, getChapter, getByNovelId, getNew, remove }
 }
