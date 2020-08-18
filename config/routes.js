@@ -25,6 +25,7 @@ module.exports = app => {
 
     app.route('/chapters')
         .all(app.config.passport.authenticate())
+        .get(app.api.chapter.getNew)
         .post(app.api.chapter.save)
 
     app.route('/chapters/novel/:id')
