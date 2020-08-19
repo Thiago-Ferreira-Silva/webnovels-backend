@@ -42,17 +42,9 @@ module.exports = app => {
             .catch( err => res.status(500).send(err))
     }
 
-    const getNew = (req, res) => {
-        //pegar os capítulos mais recentes para o home
-        app.db('chapters')
-            .select('number', 'novel_id')
-            .then( chapters => res.json(chapters))
-            .catch( err => res.status(500).send(err))
-    }
-
     const remove = (req, res) => {
         
     }
 
-    return { save, getChapter, getByNovelId, getNew, remove }
+    return { save, getChapter, getByNovelId, remove }
 }
