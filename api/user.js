@@ -49,4 +49,5 @@ module.exports = app => {
     }
 
     return { save, get, getById, remove }
+    //corrija os bugs e remova tudo que for desnecessário
 }
