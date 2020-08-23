@@ -37,11 +37,13 @@ module.exports = app => {
     }
 
     const remove = (req, res) => {
+        //criar uma checagem para saber se a novel tem capítulos
+
         app.db('novels')
             .where({ id: req.params.id })
             .del()
             .then( _ => res.status(204).send())
-            .catch( err => res.status(500).send('Erro'))
+            .catch( err => res.status(500).send())
     }
 
     return { save, get, getById, getByUserId, remove }
