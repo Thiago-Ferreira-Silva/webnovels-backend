@@ -34,4 +34,5 @@ module.exports = app => {
     app.route('/chapter/:id/:number')
         .all(app.config.passport.authenticate())
         .get(app.api.chapter.getChapter)
+        .delete(app.api.chapter.remove)
 }
