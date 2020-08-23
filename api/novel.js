@@ -40,13 +40,8 @@ module.exports = app => {
         app.db('novels')
             .where({ id: req.params.id })
             .del()
-            .then( _ => {
-                app.db('chapters')
-                    .where({ novel_id: req.params.id })
-                    .del()
-                    .catch( err => res.status(500).send())
-            })
-            .catch( err => res.status(500).send())
+            .then( _ => res.status(204).send())
+            .catch( err => res.status(500).send('Erro'))
     }
 
     return { save, get, getById, getByUserId, remove }
