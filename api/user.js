@@ -1,3 +1,5 @@
+const { authSecret } = require('../.env')
+const jwt = require('jwt-simple')
 const bcrypt = require('bcrypt')
 
 module.exports = app => {
@@ -7,7 +9,7 @@ module.exports = app => {
         return bcrypt.hashSync(password, salt)
     }
 
-    const save = (req, res) => {
+    const signup = (req, res) => {
         const user = { ...req.body }
 
         if (!user.name ) return res.status(400).send('Enter the name')
@@ -24,13 +26,6 @@ module.exports = app => {
             .then( _ => res.status(204).send())
             .catch( err => res.status(500).send(err))
     }
-    //remover o get
-    const get = (req, res) => {
-        app.db('users')
-            .select('id', 'name', 'username')
-            .then( users => res.json(users))
-            .catch( err => res.status(500).send(err))
-    } 
 
     const getById = (req, res) => {
         app.db('users')
@@ -40,14 +35,46 @@ module.exports = app => {
             .catch( err => res.status(500).send(err))
     }
 
-    const remove = (req, res) => {
-        app.db('users')
-            .where({ id: req.params.id })
-            .del()
-            .then( _ => res.status(204).send())
-            .catch( err => res.status(500).send())
+    const signin = async (req, res) => {
+        const user = await app.db('users')
+                        .where({ username: req.body.username })
+                        .first()
+    
+    const isMatch = bcrypt.compareSync(req.body.password, user.password)  
+    if(!isMatch) return res.status(401).send('Incorrect password')
+
+    const now = Math.floor(Date.now()/1000)
+    
+    const payload = {
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        iat: now,
+        exp: now + (60*60)
     }
 
-    return { save, get, getById, remove }
+    res.json({
+        ... payload,
+        token: jwt.encode(payload, authSecret)
+    })
+    }
+
+    const validateToken = async (req, res) => {
+        const userData = req.body || null
+        try {
+            if(userData) {
+                const token = jwt.decode(userData.token, authSecret)
+                if(new Date(token.exp*1000) > new Date()) {
+                    return res.send(true)
+                }
+            }
+        } catch(e) {
+
+        }
+
+        res.send(false)
+    }
+
+    return { signup, getById, signin, validateToken }
     //corrija os bugs e remova tudo que for desnecessário
 }
