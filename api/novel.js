@@ -36,14 +36,19 @@ module.exports = app => {
             .catch( err => res.status(500).send(err))
     }
 
-    const remove = (req, res) => {
-        //criar uma checagem para saber se a novel tem capítulos
+    const remove = async (req, res) => {
+        const chapters = await app.db('chapters')
+                            .select('novel_id')
+                            .where({ novel_id: req.params.id })
+                            .catch( err => res.status(500).send(err))
+
+        if (chapters.length !== 0) return res.status(400).send('This novel has chapters')
 
         app.db('novels')
             .where({ id: req.params.id })
             .del()
             .then( _ => res.status(204).send())
-            .catch( err => res.status(500).send())
+            .catch( err => res.status(500).send(err))
     }
 
     return { save, get, getById, getByUserId, remove }

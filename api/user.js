@@ -27,14 +27,14 @@ module.exports = app => {
     //remover o get
     const get = (req, res) => {
         app.db('users')
-            .select('id', 'name', 'username', 'password') // lembre-se de remover a senha do get
+            .select('id', 'name', 'username')
             .then( users => res.json(users))
             .catch( err => res.status(500).send(err))
     } 
 
     const getById = (req, res) => {
         app.db('users')
-            .select('id', 'name', 'username', 'password') // lembre-se de remover a senha do get
+            .select('id', 'name', 'username')
             .where({ id: req.params.id })
             .then( user => res.json(user))
             .catch( err => res.status(500).send(err))

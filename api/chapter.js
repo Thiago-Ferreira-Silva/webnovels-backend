@@ -31,7 +31,7 @@ module.exports = app => {
             .where({ novel_id: req.params.id, number: req.params.number })
             .first()
             .then( chapter => res.json(chapter))
-            .catch( err => res.status(500).send())
+            .catch( err => res.status(500).send(err))
     }
 
     const getByNovelId = (req, res) => {
@@ -47,7 +47,7 @@ module.exports = app => {
             .where({ novel_id: req.params.id, number: req.params.number })
             .del()
             .then( _ => res.status(204).send())
-            .catch( err => res.status(500).send())
+            .catch( err => res.status(500).send(err))
     }
 
     return { save, getChapter, getByNovelId, remove }
