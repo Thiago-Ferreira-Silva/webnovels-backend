@@ -9,14 +9,17 @@ module.exports = app => {
         return bcrypt.hashSync(password, salt)
     }
 
-    const signup = (req, res) => {
+    const signup = async (req, res) => {
         const user = { ...req.body }
 
+        const users = await app.db('users')
+                                .where({ username: req.body.username })
+                                .first()
+
+        if (users) return res.status(400).send('User already exists')
         if (!user.name ) return res.status(400).send('Enter the name')
         if (!user.username || !user.password) return res.status(400).send('Enter the username and password')
         if (!user.confirmPassword) return res.status(400).send('Confirm the password')
-
-        //checar a unicidade de usuáro
 
         user.password = encriptPassword(req.body.password)
         delete user.confirmPassword
