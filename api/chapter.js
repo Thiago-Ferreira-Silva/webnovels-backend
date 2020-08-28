@@ -5,12 +5,13 @@ module.exports = app => {
         const novel = await app.db('novels')
                         .where({ name: chapter.novelName })
                         .first()
-                        .catch( err => res.status(400).send('The novel does not exist'))
+                        .catch( err => res.status(500).send(err))
 
 
         //erro com novel que não existe
         //proíba de gerar dois capítulos com o mesmo número em uma novel
 
+        if(!novel) return res.status(400).send("This novel doesn't exist")
         if (!chapter.novelName) return res.status(400).send('Enter the novel name')
         if(!chapter.number) return res.status(400).send('Enter the number')
         if(!chapter.content) return res.staus(400).send('Enter the content')
