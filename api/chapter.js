@@ -2,14 +2,11 @@ module.exports = app => {
 
     const save = async (req, res) => {
         const chapter = { ...req.body }
+
         const novel = await app.db('novels')
                         .where({ name: chapter.novelName })
                         .first()
                         .catch( err => res.status(500).send(err))
-
-
-        //erro com novel que não existe
-        //proíba de gerar dois capítulos com o mesmo número em uma novel
 
         if(!novel) return res.status(400).send("This novel doesn't exist")
         if (!chapter.novelName) return res.status(400).send('Enter the novel name')
@@ -18,6 +15,13 @@ module.exports = app => {
 
         delete chapter.novelName
         chapter.novel_id = novel.id
+
+        const chapters = await app.db('chapters')
+                            .where({ number: chapter.number, novel_id: chapter.novel_id })
+                            .first()
+                            .catch( err => res.status(500).send(err))
+
+        if (chapters) return res.status(400).send('This chapter already exists')
 
         app.db('chapters')
             .insert(chapter)
